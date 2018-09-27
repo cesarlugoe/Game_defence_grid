@@ -173,24 +173,21 @@ Enemy.prototype.render();
 Enemy.prototype.isDead()
 
 
-//////////////////////
-
 ````
+## States and States Transition
 
-##States and States Transition
+- splashScreen <br>
+destroyGameOver(if) <br>
+buildSplash()<br>
 
-      splashScreen
-	⁃	destroyGameOver(if)
-	⁃	buildSplash()
+- gameScreen <br>
+destroySplash <br>
+Create new Game<br>
+__start()//Game Start<br>
 
-gameScreen
-	⁃	destroySplash
-	⁃	Create new Game
-	⁃	__start()//Game Start
-
-	gameOver
-	- destroyGame
-	-buildGameOver()
+- gameOver<br>
+destroyGame<br>
+buildGameOver()<br>
 
 ## Tasks
 
