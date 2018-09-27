@@ -194,38 +194,38 @@ gameScreen
 
 ## Tasks
 
-create javaScript Files
-Main - buildDom
-Main - buildSplash
-Main - buildGameOver
-Main - buildGame
-Main - destroySplash
-Main - destroyGameOver
-Main - destroy Game
-Main - handleGameOverClick
+create javaScript Files <br>
+Main - buildDom <br>
+Main - buildSplash <br>
+Main - buildGameOver <br>
+Main - buildGame <br>
+Main - destroySplash <br>
+Main - destroyGameOver <br>
+Main - destroy Game <br>
+Main - handleGameOverClick <br>
 
-Game - init (buildDom)
-Game - addEventListener
-Game - loop // create enemies // check player activation
-Game - updateAll
-Game - renderAll
-Game - clearAll
-Game - spawnEnemy
-Game - checkCollision
-Game - isPlayerAlive
-Game - upDateScoreBoard
-Game - destroyGameOver
+Game - init (buildDom) <br>
+Game - addEventListener <br>
+Game - loop // create enemies // check player activation <br>
+Game - updateAll <br>
+Game - renderAll <br>
+Game - clearAll <br>
+Game - spawnEnemy <br>
+Game - checkCollision <br>
+Game - isPlayerAlive <br>
+Game - upDateScoreBoard <br>
+Game - destroyGameOver <br>
 
-Player - create 
-Player - Laser state
-Player - update
-Player - render
-Player - checkCollision
+Player - create <br>
+Player - Laser state <br>
+Player - update <br>
+Player - render <br>
+Player - checkCollision <br>
 
-Enemy - create
-Enemy - update
-Enemy - render
-Enemy - isDead
+Enemy - create <br>
+Enemy - update <br>
+Enemy - render <br>
+Enemy - isDead <br>
 
 
 
