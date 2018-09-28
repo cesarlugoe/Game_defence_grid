@@ -48,7 +48,6 @@ Game.prototype._startLoop = function(){
   self.score = 0;
   self.enemies = [];
   self.player = new Player(self.canvasElement);
-  // laser delay
   
   self.handleKeyUp = function(evt){
     if (evt.key === "a" && !self.player.laserState) { 
