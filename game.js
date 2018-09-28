@@ -5,14 +5,14 @@ function Game(parent) {
   self.gameElement = null;
   self.onGameOverCallBack = null;
 
-  self.__start();
-  self.__startLoop();
+  self._start();
+  self._startLoop();
 
 
 }
 document.addEventListener('keyup', self.handleKeyUp);
 
-Game.prototype.__start = function(){
+Game.prototype._start = function(){
   var self = this;
   self.gameElement = buildDom(`
   <main class="game container">
@@ -31,8 +31,7 @@ self.parentElement.appendChild(self.gameElement);
 
 self.canvasParentElement = document.querySelector('.game_canvas');
 self.canvasElement = document.querySelector('.canvas');
-
-self.scoreElement = document.querySelector('.score .value ');
+self.scoreElement = document.querySelector('.score .value');
 
 self.width = self.canvasParentElement.clientWidth;
 self.height = self.canvasParentElement.clientHeight;
@@ -43,7 +42,7 @@ self.canvasElement.setAttribute('height', self.height);
 self.ctx = self.canvasElement.getContext('2d');
 }
 
-Game.prototype.__startLoop = function(){
+Game.prototype._startLoop = function(){
   var self = this;
 
   self.score = 0;
@@ -51,9 +50,9 @@ Game.prototype.__startLoop = function(){
   self.player = new Player(self.canvasElement);
 
   // laser delay
-  if (!self.player.laserState){
+  
     self.handleKeyUp= function(evt){
-     if (evt.key === "a") { 
+     if (evt.key === "a" && !self.player.laserState) { 
        self.player.setlaserState(true);
        // laser delay
        laserTimer();
@@ -62,7 +61,6 @@ Game.prototype.__startLoop = function(){
        self.player.setlaserState(false);
       } 
     }
-  }
 
   document.addEventListener("a",self.handleKeyUp);
 
@@ -91,7 +89,8 @@ Game.prototype._updateAll = function(){
   self.enemies.forEach(function(item){
     item.update();
   })
-  self.player.update();
+  // nothing to update?
+  //self.player.update();
   self._updateScoreBoard();
   
 
@@ -139,22 +138,28 @@ Game.prototype._isPlayerAlive = function(){
   var self = this;
   var gridBreached;
   self.enemies.forEach(function(item){
-    if (item.x - item.size < self.player.x) {
+    if (item.y - item.size < self.player.y) {
       gridBreached = true;
     }
   })
    return gridBreached? true : false;
 }
 
-Game.prototype.updateScoreBoard = function(){
+Game.prototype._updateScoreBoard = function(){
+    var self = this;
+
     self.scoreElement.innerText = self.score;
 }
 
+Game.prototype.laserTimer = function(){
+  var self = this;
+
+  window.setTimeout(self.player.setlaserState(false),500)
+}
+
 Game.prototype.destroy = function(){
+  var self = this;
    self.gameElement.remove();
    document.removeEventListener("a", handleKeyUp);
 }
 
-Game.prototype.laserTimer = function(){
-   window.setTimeout(self.player.setlaserState(false),500)
-}
