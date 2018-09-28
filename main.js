@@ -46,14 +46,14 @@ function main() {
 
   var game = null;
 
-  var handleGameover = function(){
+  var handleGameOver = function(){
     destroyGame();
     buildGameOver(game.score,game.userName);
   }
 
   function buildGame() {
     game = new Game (mainContainerElement);
-    game.onOver = (handleGameover);
+    game.onOver = (handleGameOver);
   }
 
   function destroyGame(){
@@ -65,7 +65,7 @@ function main() {
    var gameOverElement = null;
    var gameOverButton = null;
 
-   var handleGameover = function(){
+   var handleGameOverClick = function(){
      destroyGameOver();
      buildSplash();
    }

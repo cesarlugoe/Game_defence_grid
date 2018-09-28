@@ -3,7 +3,7 @@ function Game(parent) {
 
   self.parentElement = parent;
   self.gameElement = null;
-  self.onGameOverCallBack = null;
+  self.onGameOverCallback = null;
 
   self._start();
   self._startLoop();
@@ -48,32 +48,31 @@ Game.prototype._startLoop = function(){
   self.score = 0;
   self.enemies = [];
   self.player = new Player(self.canvasElement);
-
   // laser delay
   
-    self.handleKeyUp= function(evt){
-     if (evt.key === "a" && !self.player.laserState) { 
-       self.player.setlaserState(true);
-       // laser delay
-       laserTimer();
-      }
-     else { 
-       self.player.setlaserState(false);
-      } 
+  self.handleKeyUp = function(evt){
+    if (evt.key === "a" && !self.player.laserState) { 
+      console.log(evt)
+      self.player.setLaserState(true);
+      // laser delay
+       self.laserTimer()
     }
+    // else { 
+    //   self.player.setLaserState(false);
+    // } 
+  }
 
-  document.addEventListener("a",self.handleKeyUp);
+  document.addEventListener("keyup" , self.handleKeyUp);
 
   function loop(){
     self._clearAll();
     self._updateAll();
     self._renderAll();
-
     if (self._isPlayerAlive()) {
       requestAnimationFrame(loop);
     }
     else {
-      self.onGameOverCallBack();
+     // self.onGameOverCallback();
     }
   }
 
@@ -83,12 +82,12 @@ Game.prototype._startLoop = function(){
 Game.prototype._updateAll = function(){
   var self = this;
 
-  self._spawnEnemy();
+  //self._spawnEnemy();
 
-  self._checkAllCollision();
-  self.enemies.forEach(function(item){
-    item.update();
-  })
+  //self._checkAllCollision();
+  //self.enemies.forEach(function(item){
+  //  item.update();
+  //})
   // nothing to update?
   //self.player.update();
   self._updateScoreBoard();
@@ -102,7 +101,6 @@ Game.prototype._renderAll = function(){
   self.enemies.forEach(function(item){
     item.render();
   })
-
   if(self.player.laserState) {
     self.player.render();
   }
@@ -127,7 +125,7 @@ Game.prototype._checkAllCollision = function(){
   var self = this;
 
   self.enemies.forEach(function(item,idx){
-    if (player.checkCollision(item)) {
+    if (self.player.checkCollision(item)) {
        self.enemies.splice(idx,1);
        self.score++;
     }
@@ -136,13 +134,13 @@ Game.prototype._checkAllCollision = function(){
 
 Game.prototype._isPlayerAlive = function(){
   var self = this;
-  var gridBreached;
+  var gridBreached = false;
   self.enemies.forEach(function(item){
     if (item.y - item.size < self.player.y) {
       gridBreached = true;
     }
   })
-   return gridBreached? true : false;
+   return gridBreached? false : true;
 }
 
 Game.prototype._updateScoreBoard = function(){
@@ -153,8 +151,9 @@ Game.prototype._updateScoreBoard = function(){
 
 Game.prototype.laserTimer = function(){
   var self = this;
-
-  window.setTimeout(self.player.setlaserState(false),500)
+  window.setTimeout(function () {
+    self.player.setLaserState(false);
+  },100)
 }
 
 Game.prototype.destroy = function(){
@@ -163,3 +162,8 @@ Game.prototype.destroy = function(){
    document.removeEventListener("a", handleKeyUp);
 }
 
+Game.prototype.onOver = function(callback) {
+  var self = this;
+
+  self.onGameOverCallback = callback;
+}
