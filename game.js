@@ -71,7 +71,7 @@ Game.prototype._startLoop = function(){
       requestAnimationFrame(loop);
     }
     else {
-     // self.onGameOverCallback();
+      self.onGameOverCallback();
     }
   }
 
@@ -81,12 +81,12 @@ Game.prototype._startLoop = function(){
 Game.prototype._updateAll = function(){
   var self = this;
 
-  //self._spawnEnemy();
+  self._spawnEnemy();
 
-  //self._checkAllCollision();
-  //self.enemies.forEach(function(item){
-  //  item.update();
-  //})
+  self._checkAllCollision();
+  self.enemies.forEach(function(item){
+     item.update();
+  })
   // nothing to update?
   //self.player.update();
   self._updateScoreBoard();
@@ -114,9 +114,9 @@ Game.prototype._clearAll = function(){
 Game.prototype._spawnEnemy = function(){
   var self = this;
 
-  if (Math.random() > 0.95) {
+  if (Math.random() > 0.98) {
     var randomX = Math.random() * self.width * 0.9;
-    self.enemies.push(new Enemy(self.canvasElement, randomX, self.height));
+    self.enemies.push(new Enemy(self.canvasElement, randomX, 1));
   }
 }
 
@@ -135,7 +135,7 @@ Game.prototype._isPlayerAlive = function(){
   var self = this;
   var gridBreached = false;
   self.enemies.forEach(function(item){
-    if (item.y - item.size < self.player.y) {
+    if (item.y - item.size > self.player.y) {
       gridBreached = true;
     }
   })
@@ -158,11 +158,10 @@ Game.prototype.laserTimer = function(){
 Game.prototype.destroy = function(){
   var self = this;
    self.gameElement.remove();
-   document.removeEventListener("a", handleKeyUp);
+   document.removeEventListener("a", self.handleKeyUp);
 }
 
 Game.prototype.onOver = function(callback) {
   var self = this;
-
   self.onGameOverCallback = callback;
 }

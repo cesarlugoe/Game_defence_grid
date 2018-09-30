@@ -29,9 +29,10 @@ Player.prototype.setLaserState = function(state){
 
 Player.prototype.checkCollision = function(item) {
   var self = this;
+  var enemyBotCollision = item.y + item.size > self.y;
+  var enemyTopCollision = item.y < self.y + self.height;
 
-   if(self.player.laserState === true && item.x + size < self.player.x) {
+   if(self.laserState === true && enemyBotCollision && enemyTopCollision){
        return true;
    } 
-
 }

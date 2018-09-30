@@ -48,12 +48,13 @@ function main() {
 
   var handleGameOver = function(){
     destroyGame();
-    buildGameOver(game.score,game.userName);
+    buildGameOver(game.score);
   }
 
   function buildGame() {
     game = new Game (mainContainerElement);
-    game.onOver = (handleGameOver);
+    game.onOver(handleGameOver);
+    
   }
 
   function destroyGame(){
@@ -64,6 +65,7 @@ function main() {
 
    var gameOverElement = null;
    var gameOverButton = null;
+   var gameOverScore = null;
 
    var handleGameOverClick = function(){
      destroyGameOver();
@@ -80,10 +82,11 @@ function main() {
     `)
      mainContainerElement.appendChild(gameOverElement);
 
+     gameOverScore = document.querySelector('.score');
+     gameOverScore.innerText = " " + game.score;
      gameOverButton = document.querySelector('button');
      gameOverButton.addEventListener('click', handleGameOverClick);
 
-     gameOverElement.remove();
   }
 
   function destroyGameOver(){
