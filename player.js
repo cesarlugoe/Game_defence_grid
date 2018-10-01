@@ -4,35 +4,88 @@ function Player(canvas) {
   self.x = 1;
   self.y = 600;
   self.height = 6;
-  self.width = canvas.width;
-  self.laserState = false;
+  self.width = 0;
+  self.maxWidth = canvas.width;
+  self.laser = [new Laser(1, canvas), new Laser(canvas.width, canvas)];
+  self.laserState = null;
   self.ctx = canvas.getContext('2d');
 }
 
-/* nothing to update?
-Player.prototype.update = function(){
-
+function Laser(x, canvas){
+  var self = this;
+  self.x = x;
+  self.maxWidth = (canvas.width)/2;
+  self.width = 0;
+  self.ctx = canvas.getContext('2d');
 }
-*/
+
+Player.prototype.update = function(){
+  var self = this;
+  
+  self.laser.forEach(function(eachLaser){
+    if (eachLaser.x === 1 && eachLaser.x < eachLaser.maxWidth){
+      eachLaser.width += 35;
+    }
+    
+    else if (eachLaser.x > eachLaser.maxWidth){
+      
+      eachLaser.width -= 35;
+    } 
+    })
+  }
+  
 
 Player.prototype.render = function(){
   var self = this;
-  self.ctx.fillStyle = '#000000';
-  self.ctx.fillRect(self.x, self.y, self.width, self.height);
+  var random = Math.round(Math.random() * 4);
+  var laserPrimary = ["#071630","#0C234C","#19499E","#3E8BB7","#26DEEF"];
+  var laserSuccess = ["#102D0B","#194912","#2B821D","#2CAA19","29DD0D"];
+  var laserDanger = ["#490B0B", "#5B0E0E", "#9E1919", "#E23F3F", "#EA2525"];
+  
+  self.laser.forEach(function(eachLaser){
+    if (self.laserState === 'primary') {
+       eachLaser.ctx.fillStyle = laserPrimary[random]; 
+    }
+    else if (self.laserState === 'success'){
+       eachLaser.ctx.fillStyle = laserSuccess[random];
+    }
+    else if (self.laserState === 'danger'){
+       eachLaser.ctx.fillStyle = laserDanger[random]; 
+    }
+       eachLaser.ctx.fillRect(eachLaser.x, self.y, eachLaser.width, self.height); 
+  })
 }
 
-Player.prototype.setLaserState = function(state){
+Player.prototype.setLaserState = function(state, audio){
   var self = this;
-  console.log('ok');
+  audio.play();
   self.laserState = state;
+  self.laser.forEach(function(eachLaser){
+    eachLaser.width = 0;
+  })
 }
 
 Player.prototype.checkCollision = function(item) {
   var self = this;
-  var enemyBotCollision = item.y + item.size > self.y;
-  var enemyTopCollision = item.y < self.y + self.height;
+  var crashAll = [];
+  
+  self.laser.forEach(function(eachLaser){
+    var enemyColor = item.color;
+    var enemyBotCollision = item.y + item.height > self.y;
+    var enemyTopCollision = item.y < self.y + self.height;
+    var enemyLeftCollision = item.x < eachLaser.x + eachLaser.width;
+    var enemyRightCollision = item.x + item.width > eachLaser.x + eachLaser.width;
 
-   if(self.laserState === true && enemyBotCollision && enemyTopCollision){
-       return true;
-   } 
+    if(eachLaser.x === 1){
+      if(self.laserState === enemyColor && enemyBotCollision && enemyTopCollision && enemyLeftCollision){
+        return crashAll.push(true);
+        }
+      else if(self.laserState === enemyColor && enemyBotCollision && enemyTopCollision && enemyRightCollision){
+        return crashAll.push(true);
+      }   
+    }
+  })
+  if (crashAll[0] === true || crashAll[1] === true){
+    return true;
+  }  
 }

@@ -4,13 +4,14 @@ function Game(parent) {
   self.parentElement = parent;
   self.gameElement = null;
   self.onGameOverCallback = null;
+  self.pauseState = false;
+  
+  self.randomSpawn = 0.99;
+  self.accelerateSpawn = false;
 
   self._start();
   self._startLoop();
-
-
 }
-document.addEventListener('keyup', self.handleKeyUp);
 
 Game.prototype._start = function(){
   var self = this;
@@ -25,6 +26,8 @@ Game.prototype._start = function(){
         <span class="value"></span>
       </div>
     </footer>
+  <audio class="sountrack" src="Audio/12 The Planets： Jupiter.mp3" loop="true" autoplay="true"></audio>
+  <audio class="laser_audio" src="Audio/Laser sound effects.mp3"></audio>
   </main>
   `)
 self.parentElement.appendChild(self.gameElement);
@@ -32,6 +35,8 @@ self.parentElement.appendChild(self.gameElement);
 self.canvasParentElement = document.querySelector('.game_canvas');
 self.canvasElement = document.querySelector('.canvas');
 self.scoreElement = document.querySelector('.score .value');
+self.laserAudioElement = document.querySelector('.laser_audio');
+self.sountrackElement = document.querySelector('.sountrack');
 
 self.width = self.canvasParentElement.clientWidth;
 self.height = self.canvasParentElement.clientHeight;
@@ -39,6 +44,8 @@ self.height = self.canvasParentElement.clientHeight;
 self.canvasElement.setAttribute('width',self.width);
 self.canvasElement.setAttribute('height', self.height);
 
+
+//
 self.ctx = self.canvasElement.getContext('2d');
 }
 
@@ -49,49 +56,52 @@ Game.prototype._startLoop = function(){
   self.enemies = [];
   self.player = new Player(self.canvasElement);
   
-  self.handleKeyUp = function(evt){
-    if (evt.key === "a" && !self.player.laserState) { 
-      console.log(evt)
-      self.player.setLaserState(true);
-      // laser delay
-       self.laserTimer()
+  self.handleKeyDown = function(evt){
+    switch (evt.key) {
+      case 'a':
+        self.player.setLaserState('primary',self.laserAudioElement);
+        break;
+      case 's':
+        self.player.setLaserState('success',self.laserAudioElement);
+        break;
+      case 'd':
+        self.player.setLaserState('danger',self.laserAudioElement);
+        break;
+      case 'Escape':
+        self.pause(loop);
+        break;
     }
-    // else { 
-    //   self.player.setLaserState(false);
-    // } 
-  }
+  }  
 
-  document.addEventListener("keyup" , self.handleKeyUp);
-
+  document.addEventListener("keydown" , self.handleKeyDown);
+  
   function loop(){
-    self._clearAll();
-    self._updateAll();
-    self._renderAll();
-    if (self._isPlayerAlive()) {
-      requestAnimationFrame(loop);
+    
+      self._clearAll();
+      self._updateAll();
+      self._renderAll();
+      if (self._isPlayerAlive() && !self.pauseState) {
+        requestAnimationFrame(loop);
+      }
+      else if (!self._isPlayerAlive()) {
+        self.onGameOverCallback();
+      }
     }
-    else {
-      self.onGameOverCallback();
-    }
-  }
-
-  requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
 }
 
 Game.prototype._updateAll = function(){
   var self = this;
 
   self._spawnEnemy();
-
+  
   self._checkAllCollision();
   self.enemies.forEach(function(item){
      item.update();
   })
-  // nothing to update?
-  //self.player.update();
-  self._updateScoreBoard();
-  
 
+  self._updateScoreBoard();
+  self.player.update();
 }
 
 Game.prototype._renderAll = function(){
@@ -114,19 +124,27 @@ Game.prototype._clearAll = function(){
 Game.prototype._spawnEnemy = function(){
   var self = this;
 
-  if (Math.random() > 0.98) {
+  if (!self.accelerateSpawn) {
+     self.accelerate();
+  }
+  
+  if (Math.random() > self.randomSpawn) {
+    var asteroidColors = ['primary', 'success', 'danger'];
+    var color = asteroidColors[Math.round(Math.random() * 2)];
     var randomX = Math.random() * self.width * 0.9;
-    self.enemies.push(new Enemy(self.canvasElement, randomX, 1));
+    self.enemies.push(new Enemy(self.canvasElement, randomX, 1, color));
   }
 }
 
 Game.prototype._checkAllCollision = function(){
   var self = this;
-
+  var explotionAudio = new Audio('Audio/Laser and explosion (with sound) (1).mp3');
+  
   self.enemies.forEach(function(item,idx){
     if (self.player.checkCollision(item)) {
        self.enemies.splice(idx,1);
        self.score++;
+       explotionAudio.play();
     }
   })
 }
@@ -134,8 +152,9 @@ Game.prototype._checkAllCollision = function(){
 Game.prototype._isPlayerAlive = function(){
   var self = this;
   var gridBreached = false;
+
   self.enemies.forEach(function(item){
-    if (item.y - item.size > self.player.y) {
+    if (item.y - item.height > self.player.y) {
       gridBreached = true;
     }
   })
@@ -148,20 +167,38 @@ Game.prototype._updateScoreBoard = function(){
     self.scoreElement.innerText = self.score;
 }
 
-Game.prototype.laserTimer = function(){
+Game.prototype.pause = function(loop){
   var self = this;
-  window.setTimeout(function () {
-    self.player.setLaserState(false);
-  },100)
+
+  self.sountrackElement.pause();
+  self.laserAudioElement.pause();
+  self.pauseState = !self.pauseState;
+
+  if (!self.pauseState) {
+    self.sountrackElement.play();
+    requestAnimationFrame(loop)
+  }
 }
 
 Game.prototype.destroy = function(){
   var self = this;
+
    self.gameElement.remove();
-   document.removeEventListener("a", self.handleKeyUp);
+   document.removeEventListener("a", self.handleKeyDown);
 }
 
 Game.prototype.onOver = function(callback) {
   var self = this;
+
   self.onGameOverCallback = callback;
+}
+
+Game.prototype.accelerate = function(){
+  var self = this;
+  
+  self.accelerateSpawn = true;
+  window.setTimeout(function () {
+    self.randomSpawn-= 0.00025;
+    self.accelerateSpawn = false;
+  },5000)
 }

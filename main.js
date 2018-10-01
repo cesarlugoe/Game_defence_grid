@@ -23,9 +23,12 @@ function main() {
   function buildSplash(){
     splashElement = buildDom(`
       <main class="splash container">
+       <div class="splash_content">
         <h1 class="splash_title">Defense Grid</h1>
-        <p>Instructions: Use your 'A' key to active the laser and defend the Earth from incoming asteroids</p>
+        <p>Instructions: Use your 'a' (Red), 's' (Green), 'd' (Blue) keys to active each laser and defend the Earth from incoming colored asteroids</p>
         <button>Start</button>
+      </div> 
+        <audio class="intro" src="Audio/06 Requiem Mass： Lacrimosa.mp3" autoplay="true" loop="true"></audio>
       </main>
     `)
 
@@ -33,6 +36,7 @@ function main() {
 
     splashButton = document.querySelector('button');
     splashButton.addEventListener('click', handleSplashClick);
+    //introAudio = document.querySelector('.intro');
   }
 
   function destroySplash(){
@@ -74,10 +78,17 @@ function main() {
 
   function buildGameOver (score, userName){
     gameOverElement = buildDom(`
-    <main class="gamever container">
-      <h1>Game Over</h1>
-      <p>Your score:<span class="score"></span></p>
-      <button>Play Again</button>
+    <main class="gameover container">
+      <div class="gameover_content">
+        <h1>Game Over</h1>
+        <p>Your score:<span class="score"></span></p>
+        <button>Play Again</button>
+      </div>
+      <div class="video container">
+        <video autoplay id="gameover_video">
+          <source src="Audio/Discovery Channel - Large Asteroid Impact Simulation.mp4" type="video/mp4">
+        </video>
+      </div>  
     </main>
     `)
      mainContainerElement.appendChild(gameOverElement);
@@ -96,4 +107,5 @@ function main() {
 
 buildSplash();
 }
+//load
 document.addEventListener('DOMContentLoaded', main);

@@ -27,17 +27,78 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   background-color:white;;
 }
-.game_canvas {
-  width: 100%;
-  height: 100%;
-}
 
-.canvas {
-  width: 100%;
-  height: 100%;
+#gameover_video {
+  right: 0;
+  top: 0;
+  min-width: 100%; 
+  height: 80%;
+  order: 1;
+
 }
 
 .container {
   width: 100%;
   height:100%;
 }
+
+/* Splash */
+
+.splash {
+  background-size: contain;
+  background-repeat: repeat;
+  background-image: url("img/asteEarth.webp");
+  color: white;
+  display: flex;
+  align-items: flex-end;
+ 
+}
+
+.splash_content{
+  margin-bottom: 40px;
+  margin-left:40px;
+}
+
+/* Game */ 
+.game_canvas {
+  margin-top: 5%;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  display: flex;  
+  flex-wrap: wrap;
+}
+
+.game {
+  background-color: black;
+}
+
+.canvas {
+  width: 70%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url("img/papers.co-ah64-earth-minimal-nature-art-space-dark-36-3840x2400-4k-wallpaper\ \(1\).jpg");
+}
+
+/* Gameover */
+.gameover {
+  display: flex;
+  background-color: black;
+  justify-content: center;
+
+}
+
+.gameover_content {
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
+  width: 100%;
+  padding: 20px;
+  order: 2;
+}
+
+
+
+
+
