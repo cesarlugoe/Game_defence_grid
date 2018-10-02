@@ -11,7 +11,6 @@ function main() {
 
   //-- Splash 
 
-  //--place holders
   var splashElement = null;
   var splashButton = null;
 
@@ -28,6 +27,7 @@ function main() {
         <p>Instructions: Use your 'a' (Red), 's' (Green), 'd' (Blue) keys to active each laser and defend the Earth from incoming colored asteroids</p>
         <button>Start</button>
       </div> 
+        <iframe src="Audio/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
         <audio class="intro" src="Audio/06 Requiem Mass： Lacrimosa.mp3" autoplay="true" loop="true"></audio>
       </main>
     `)
@@ -36,7 +36,8 @@ function main() {
 
     splashButton = document.querySelector('button');
     splashButton.addEventListener('click', handleSplashClick);
-    //introAudio = document.querySelector('.intro');
+    introAudio = document.querySelector('.intro');
+    //introAudio.play();
   }
 
   function destroySplash(){
@@ -45,8 +46,6 @@ function main() {
   }
 
   //-- Game
-
-  //--placeholders
 
   var game = null;
 
@@ -58,7 +57,6 @@ function main() {
   function buildGame() {
     game = new Game (mainContainerElement);
     game.onOver(handleGameOver);
-    
   }
 
   function destroyGame(){
@@ -96,6 +94,7 @@ function main() {
      gameOverScore = document.querySelector('.score');
      gameOverScore.innerText = " " + game.score;
      gameOverButton = document.querySelector('button');
+
      gameOverButton.addEventListener('click', handleGameOverClick);
 
   }

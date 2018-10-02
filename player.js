@@ -13,6 +13,7 @@ function Player(canvas) {
 
 function Laser(x, canvas){
   var self = this;
+  
   self.x = x;
   self.maxWidth = (canvas.width)/2;
   self.width = 0;
@@ -24,17 +25,14 @@ Player.prototype.update = function(){
   
   self.laser.forEach(function(eachLaser){
     if (eachLaser.x === 1 && eachLaser.x < eachLaser.maxWidth){
-      eachLaser.width += 35;
+      eachLaser.width += 45;
     }
-    
-    else if (eachLaser.x > eachLaser.maxWidth){
-      
-      eachLaser.width -= 35;
+    else if (eachLaser.x > eachLaser.maxWidth){ 
+      eachLaser.width -= 45;
     } 
-    })
-  }
+  })
+}
   
-
 Player.prototype.render = function(){
   var self = this;
   var random = Math.round(Math.random() * 4);
@@ -67,25 +65,19 @@ Player.prototype.setLaserState = function(state, audio){
 
 Player.prototype.checkCollision = function(item) {
   var self = this;
-  var crashAll = [];
+  var collision;
   
   self.laser.forEach(function(eachLaser){
-    var enemyColor = item.color;
     var enemyBotCollision = item.y + item.height > self.y;
     var enemyTopCollision = item.y < self.y + self.height;
     var enemyLeftCollision = item.x < eachLaser.x + eachLaser.width;
     var enemyRightCollision = item.x + item.width > eachLaser.x + eachLaser.width;
-
-    if(eachLaser.x === 1){
-      if(self.laserState === enemyColor && enemyBotCollision && enemyTopCollision && enemyLeftCollision){
-        return crashAll.push(true);
-        }
-      else if(self.laserState === enemyColor && enemyBotCollision && enemyTopCollision && enemyRightCollision){
-        return crashAll.push(true);
-      }   
-    }
+    var collisionLeftLaser =  enemyBotCollision && enemyTopCollision && enemyLeftCollision;
+    var collisionRightLaser = enemyBotCollision && enemyTopCollision && enemyRightCollision;
+    var sameColor = self.laserState === item.color;
+    if((sameColor && collisionLeftLaser) || (sameColor && collisionRightLaser)){
+      collision = true;
+    }  
   })
-  if (crashAll[0] === true || crashAll[1] === true){
-    return true;
-  }  
-}
+ return collision; 
+} 

@@ -12,11 +12,6 @@ function Enemy (canvas, x, y, color) {
   
 }
 
-Enemy.prototype.Image = function(){
-  var self = this;
-
-}
-
 Enemy.prototype.update = function() {
   var self = this;
 
@@ -25,6 +20,7 @@ Enemy.prototype.update = function() {
 
 Enemy.prototype.render = function() {
   var self = this;
+
   var asteroidPrimary = "#0000FF";
   var asteroidSuccess = "#008000";
   var asteroidDanger = "#FF0000";
@@ -42,6 +38,5 @@ Enemy.prototype.render = function() {
     self.img.src = 'img/RA3.png';
   }
   
-  //self.ctx.fillRect(self.x, self.y, self.width, self.height);
   self.ctx.drawImage(self.img, self.x, self.y, self.width + 8, self.height + 8);
 }

@@ -44,8 +44,6 @@ self.height = self.canvasParentElement.clientHeight;
 self.canvasElement.setAttribute('width',self.width);
 self.canvasElement.setAttribute('height', self.height);
 
-
-//
 self.ctx = self.canvasElement.getContext('2d');
 }
 
@@ -86,20 +84,18 @@ Game.prototype._startLoop = function(){
       else if (!self._isPlayerAlive()) {
         self.onGameOverCallback();
       }
-    }
-    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
 }
 
 Game.prototype._updateAll = function(){
   var self = this;
 
   self._spawnEnemy();
-  
   self._checkAllCollision();
   self.enemies.forEach(function(item){
      item.update();
   })
-
   self._updateScoreBoard();
   self.player.update();
 }
@@ -184,7 +180,7 @@ Game.prototype.destroy = function(){
   var self = this;
 
    self.gameElement.remove();
-   document.removeEventListener("a", self.handleKeyDown);
+   document.removeEventListener("keydown", self.handleKeyDown);
 }
 
 Game.prototype.onOver = function(callback) {
@@ -195,10 +191,10 @@ Game.prototype.onOver = function(callback) {
 
 Game.prototype.accelerate = function(){
   var self = this;
-  
+
   self.accelerateSpawn = true;
-  window.setTimeout(function () {
+  window.setTimeout(function() {
     self.randomSpawn-= 0.00025;
     self.accelerateSpawn = false;
-  },5000)
+  }, 5000)
 }
