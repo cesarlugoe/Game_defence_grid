@@ -19,6 +19,12 @@ Game.prototype._start = function(){
   <main class="game container">
     <div class="game_canvas">
       <canvas class="canvas"></canvas>
+      <footer class="game_footer">
+      <div class="score">
+        <span class="label">Score:</span>
+        <span class="value"></span>
+      </div>
+    </footer>
     </div>
     <footer class="game_footer">
       <div class="score">

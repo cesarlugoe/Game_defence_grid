@@ -24,7 +24,7 @@ function main() {
       <main class="splash container">
        <div class="splash_content">
         <h1 class="splash_title">Defense Grid</h1>
-        <p>Instructions: Use your 'a' (Red), 's' (Green), 'd' (Blue) keys to active each laser and defend the Earth from incoming colored asteroids</p>
+        <p>Instructions: Use your 'a' (<span class="red">Red</span>), 's' (<span class="green">Green</span>), 'd' (<span class="blue">Blue</span>) keys to active each laser and defend the Earth from incoming colored asteroids.</p>
         <button>Start</button>
       </div> 
         <iframe src="Audio/silence.mp3" allow="autoplay" id="audio" style="display:none"></iframe>
@@ -36,7 +36,7 @@ function main() {
 
     splashButton = document.querySelector('button');
     splashButton.addEventListener('click', handleSplashClick);
-    introAudio = document.querySelector('.intro');
+    //introAudio = document.querySelector('.intro');
     //introAudio.play();
   }
 

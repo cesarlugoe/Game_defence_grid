@@ -21,20 +21,13 @@ Enemy.prototype.update = function() {
 Enemy.prototype.render = function() {
   var self = this;
 
-  var asteroidPrimary = "#0000FF";
-  var asteroidSuccess = "#008000";
-  var asteroidDanger = "#FF0000";
-  
   if (self.color === 'primary'){
-    self.ctx.fillStyle = asteroidPrimary;
     self.img.src = 'img/blue_asteroid.png';
   }
   else if (self.color === 'success'){
-    self.ctx.fillStyle = asteroidSuccess;
     self.img.src = 'img/green asteroid.png';
   }
   else {
-    self.ctx.fillStyle = asteroidDanger;
     self.img.src = 'img/RA3.png';
   }
   

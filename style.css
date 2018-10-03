@@ -18,7 +18,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-/* -- Layout -- */
+/* ---- Layout ---- */
 
 #main-container {
   height:100vh;
@@ -42,7 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   height:100%;
 }
 
-/* Splash */
+/* ---- Splash ---- */
 
 .splash {
   background-size: contain;
@@ -54,12 +54,56 @@ h1, h2, h3, h4, h5, h6 {
  
 }
 
+.splash_title{
+  font-size: 50px;
+  font-family: 'Montserrat', sans-serif;
+}
+button {
+  display:inline-block;
+  padding:0.35em 1.2em;
+  border:0.1em solid #FFFFFF;
+  margin:0 0.3em 0.3em 0;
+  border-radius:0.12em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  color: black;
+  font-size: 20px;
+  text-align:center;
+  transition: all 0.2s;
+  height: 35px;
+  width: 120px;
+}
+
+button:hover{
+  color:#000000;
+  background-color: rgb(105,105,105);
+  border: 0.1em solid rgb(105,105,105);
+}
+
+
 .splash_content{
   margin-bottom: 40px;
   margin-left:40px;
 }
+.splash_content p {
+  font-size: 30px;
+}
+ .splash_content .red {
+   color: red;
+ }
 
-/* Game */ 
+ .splash_content .blue {
+   color: blue;
+ }
+
+ .splash_content .green {
+   color: green;
+ }
+
+/* ----- Game ----- */ 
+
 .game_canvas {
   margin-top: 5%;
   width: 100%;
@@ -67,6 +111,8 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   display: flex;  
   flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .game {
@@ -81,7 +127,16 @@ h1, h2, h3, h4, h5, h6 {
   background-image: url("img/papers.co-ah64-earth-minimal-nature-art-space-dark-36-3840x2400-4k-wallpaper\ \(1\).jpg");
 }
 
-/* Gameover */
+.game_footer {
+    width: 15%;
+    color: white;
+    align-content: center;
+    font-size: 30px;
+
+}
+
+/* ---- Gameover ---- */
+
 .gameover {
   display: flex;
   background-color: black;
