@@ -74,6 +74,8 @@ button {
   transition: all 0.2s;
   height: 35px;
   width: 120px;
+  user-select: none;
+
 }
 
 button:hover{

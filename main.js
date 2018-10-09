@@ -1,20 +1,20 @@
 'use strict';
 
 function buildDom (html){
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   div.innerHTML= html;
   return div.children[0];
 }
 
 function main() {
-   var mainContainerElement = document.querySelector('#main-container');
+   let mainContainerElement = document.querySelector('#main-container');
 
   //-- Splash 
 
-  var splashElement = null;
-  var splashButton = null;
+  let splashElement = null;
+  let splashButton = null;
 
-  var handleSplashClick = function (){
+  let handleSplashClick = () => {
     destroySplash();
     buildGame();
   }
@@ -23,7 +23,7 @@ function main() {
     splashElement = buildDom(`
       <main class="splash container">
        <div class="splash_content">
-        <h1 class="splash_title">Defense Grid</h1>
+        <h1 class="splash_title">DEFENSE GRID</h1>
         <p>Instructions: Use your 'a' (<span class="red">Red</span>), 's' (<span class="green">Green</span>), 'd' (<span class="blue">Blue</span>) keys to active each laser and defend the Earth from incoming colored asteroids.</p>
         <button>Start</button>
       </div> 
@@ -36,8 +36,6 @@ function main() {
 
     splashButton = document.querySelector('button');
     splashButton.addEventListener('click', handleSplashClick);
-    //introAudio = document.querySelector('.intro');
-    //introAudio.play();
   }
 
   function destroySplash(){
@@ -47,9 +45,9 @@ function main() {
 
   //-- Game
 
-  var game = null;
+  let game = null;
 
-  var handleGameOver = function(){
+  const handleGameOver = () => {
     destroyGame();
     buildGameOver(game.score);
   }
@@ -65,11 +63,11 @@ function main() {
 
   //-- Game Over
 
-   var gameOverElement = null;
-   var gameOverButton = null;
-   var gameOverScore = null;
+   let gameOverElement = null;
+   let gameOverButton = null;
+   let gameOverScore = null;
 
-   var handleGameOverClick = function(){
+   const handleGameOverClick = () => {
      destroyGameOver();
      buildSplash();
    }
